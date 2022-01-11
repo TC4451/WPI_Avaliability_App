@@ -1,2 +1,2 @@
-# WPI_Avaliability_App
+# WPI_Availability_App
 Hackathon 2022
