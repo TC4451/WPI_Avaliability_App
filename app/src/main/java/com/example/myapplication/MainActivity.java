@@ -1,65 +1,88 @@
 package com.example.myapplication;
 
-import android.os.Bundle;
-import android.view.View;
-import android.view.Menu;
-
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.databinding.ActivityMainBinding;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
+    public Location cc = new Location("Campus Center");
+    public Location library = new Location ("Gordon Library");
+    public Location sport_rec = new Location("WPI Sports & Recreation Center");
 
+    RadioGroup radioGroup;
+    RadioGroup radioGroupBusy;
+    RadioButton radioButton;
+    RadioButton radioButtonBusy;
+    String input;
+
+    private EditText inputBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        radioGroup = (RadioGroup) findViewById(R.id.radio_group_for_open);
+        radioGroupBusy = (RadioGroup) findViewById(R.id.radio_group_for_busy);
 
-        setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+        View here = new View(this);
+        onRadioButtonClicked(here);
+        onRadioButtonClickedBusy(here);
+
+        Button confirmLocationInputButton = (Button)findViewById(R.id.confirmInputButton);
+        inputBox = (EditText) findViewById(R.id.input_Box);
+        confirmLocationInputButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                input = inputBox.getText().toString();
+                Toast.makeText(MainActivity.this, "Availability added!", Toast.LENGTH_LONG).show();
             }
         });
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setOpenableLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public void onRadioButtonClicked(View view) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
+
+        radioButton = (RadioButton) findViewById(radioId);
+
+        //Toast.makeText(this, radioButton.getText(), Toast.LENGTH_SHORT).show();
+
+        if (radioButton.getText().equals("Open")){
+            Toast.makeText(this, "is open", Toast.LENGTH_SHORT);
+        } else {
+            Toast.makeText(this, "is closed", Toast.LENGTH_SHORT);
+        }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+    public void onRadioButtonClickedBusy(View view) {
+
+        int radioIdBusy = radioGroupBusy.getCheckedRadioButtonId();
+
+        radioButtonBusy = (RadioButton) findViewById(radioIdBusy);
+
+        /*
+        if (radioButtonBusy.getText().equals("Not Too Busy")) {
+            if (input.equals(cc.getName().toLowerCase(Locale.ROOT).trim())) {
+                cc.adjustBusySlot(1);
+            }
+        } else if (radioButtonBusy.getText().equals("Little Busy")) {
+            if (input.equals(cc.getName().toLowerCase(Locale.ROOT).trim())) {
+                cc.adjustBusySlot(2);
+            }
+        } else {
+            if (input.equals(cc.getName().toLowerCase(Locale.ROOT).trim())) {
+                cc.adjustBusySlot(3);
+            }
+        }
+        */
     }
 }
