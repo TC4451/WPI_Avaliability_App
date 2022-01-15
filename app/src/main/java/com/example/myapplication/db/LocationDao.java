@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface LocationDao {
 
-    @Query("SELECT * FROM locationentity")
+    @Query("SELECT * FROM location_database")
     List<LocationEntity> getAllLocation();
 
     @Insert

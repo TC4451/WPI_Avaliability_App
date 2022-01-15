@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "a2addd700eb7b2c5916479da79de0003",
+    "entities": [
+      {
+        "tableName": "location_database",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lid` INTEGER NOT NULL, `location_name` TEXT, PRIMARY KEY(`lid`))",
+        "fields": [
+          {
+            "fieldPath": "lid",
+            "columnName": "lid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locName",
+            "columnName": "location_name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "lid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a2addd700eb7b2c5916479da79de0003')"
+    ]
+  }
+}

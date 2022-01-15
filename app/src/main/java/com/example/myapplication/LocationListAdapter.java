@@ -41,7 +41,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
 
     @Override
     public int getItemCount() {
-        return this.locList.size();
+        return 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
