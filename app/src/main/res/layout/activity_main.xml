@@ -8,6 +8,17 @@
     android:orientation="vertical"
     >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WPI availability app"
+        android:background="@color/red"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="15pt"
+        />
+
     <EditText
         android:id="@+id/input_Box"
         android:layout_width="match_parent"
@@ -72,6 +83,14 @@
             android:text="Very Busy"
             />
     </RadioGroup>
+
+    <Button
+        android:id="@+id/access_locations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Access All Locations"
+        />
+
 
 
 

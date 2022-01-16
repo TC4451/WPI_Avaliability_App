@@ -146,7 +146,14 @@ public class MainActivity extends AppCompatActivity {
             isBusy = 2;
         }
 
+        Button goToListButton = (Button) findViewById(R.id.access_locations);
+        goToListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ListOfActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-
 
 }
