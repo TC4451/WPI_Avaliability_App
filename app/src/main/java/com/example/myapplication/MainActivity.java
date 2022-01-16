@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,14 +53,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 input = inputBox.getText().toString();
-                Toast.makeText(MainActivity.this, "Location Confirmed!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Availability added!", Toast.LENGTH_LONG).show();
                 Intent timeTable = new Intent(MainActivity.this, SecondActivity.class);
-                int day = Calendar.getInstance().DAY_OF_WEEK;
-                int time = Calendar.getInstance().HOUR;
-                timeTable.putExtra("Busy", isBusy);
+                if (input.equals(cc.getName().trim().toLowerCase())) {
+                    timeTable.putExtra("loc", (Parcelable) cc);
+                }
+                if (input.equals(library.getName().trim().toLowerCase())) {
+                    timeTable.putExtra("loc", (Parcelable) library);
+                }
+                if (input.equals(sport_rec.getName().trim().toLowerCase())) {
+                    timeTable.putExtra("loc", (Parcelable) sport_rec);
+                }
+                System.out.println("open 1: "+ isOpen);
                 timeTable.putExtra("Open", isOpen);
-                timeTable.putExtra("Day", day);
-                timeTable.putExtra("Hour", time);
                 startActivity(timeTable);
             }
         });
@@ -76,17 +79,19 @@ public class MainActivity extends AppCompatActivity {
                 int day = Calendar.getInstance().DAY_OF_WEEK;
                 int time = Calendar.getInstance().HOUR;
                 if (input.equals(cc.getName().trim().toLowerCase())) {
+                    isOpen = true;
                     cc.adjustOpenSlot(day, time, true);
                 }
                 if (input.equals(library.getName().trim().toLowerCase())) {
+                    isOpen = true;
                     library.adjustOpenSlot(day, time, true);
                 }
                 if (input.equals(sport_rec.getName().trim().toLowerCase())) {
+                    isOpen = true;
                     sport_rec.adjustOpenSlot(day, time, true);
                 }
             }
         });
-
 
         //to update busyness of location
         radioGroupBusy = (RadioGroup) findViewById(R.id.radio_group_for_busy);

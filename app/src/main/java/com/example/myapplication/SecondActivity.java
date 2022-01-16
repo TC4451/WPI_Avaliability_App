@@ -6,33 +6,56 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 public class SecondActivity extends AppCompatActivity {
 
-    public Location cc = new Location("Campus Center");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-
         Intent intent = getIntent();
-        Boolean isOpen = intent.getBooleanExtra("Open", false);
-        int isBusy = intent.getIntExtra("Busy", 0);
-        int day = intent.getIntExtra("Day", 1);
-        int hour = intent.getIntExtra("Hour", 1);
-        cc.adjustOpenSlot(day, hour, isOpen);
-        //System.out.println("here: "+R.id.a_12);
-        String timeId = "@+id/" + this.getTimeSlotIdByTime(day, hour);
+        Location cc = (Location) intent.getParcelableExtra("loc");
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        int hour = Calendar.getInstance().get(Calendar.HOUR);
+        System.out.println("Day: "+ day);
+        System.out.println("Hour: "+ hour);
+        boolean isOpen = intent.getBooleanExtra("Open", true);
+        int slotId = this.getId(this.getSlotIdByTime(day, hour));
+        System.out.println("here: "+this.getSlotIdByTime(day, hour));
+
+        if(isOpen){
+            System.out.println("isOpen "+isOpen);
+            findViewById(slotId).setBackgroundColor(getResources().getColor(R.color.green));
+        }
+        else{
+            System.out.println("isOpen "+isOpen);
+            findViewById(slotId).setBackgroundColor(getResources().getColor(R.color.white));
+        }
+
         //tx.setBackgroundColor(255);
         //System.out.println("herehere: "+this.getTimeSlotIdByTime(day, hour));
-        boolean test = true;
+        Button back = findViewById(R.id.goBackButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToMain = new Intent(SecondActivity.this, MainActivity.class);
+                startActivity(goToMain);
+            }
+        });
+
+
+
     }
 
-    //
-    public String getTimeSlotIdByTime(int day, int hour){
+    //produces a string id for the
+    public String getSlotIdByTime(int day, int hour){
         String id = "";
         String[] weekLetters = {"u", "m", "t", "w", "r", "f", "a"};
         id+=(weekLetters[day-1]+"_");
@@ -86,4 +109,164 @@ public class SecondActivity extends AppCompatActivity {
 
         return id;
     }
+
+
+    //finds the correct id from a given string id
+    public int getId(String strId){
+        int id=0;
+        if(strId.equals("m_01")){
+            id=R.id.m_01;
+        }
+        else if(strId.equals("t_01")){
+            id=R.id.t_01;
+        }
+        else if(strId.equals("w_01")){
+            id=R.id.w_01;
+        }
+        else if(strId.equals("r_01")){
+            id=R.id.r_01;
+        }
+        else if(strId.equals("f_01")){
+            id=R.id.f_01;
+        }
+        else if(strId.equals("a_01")){
+            id=R.id.a_01;
+        }
+        else if(strId.equals("u_01")){
+            id=R.id.u_01;
+        }
+        else if(strId.equals("m_12")){
+            id=R.id.m_12;
+        }
+        else if(strId.equals("t_12")){
+            id=R.id.t_12;
+        }
+        else if(strId.equals("w_12")){
+            id=R.id.w_12;
+        }
+        else if(strId.equals("r_12")){
+            id=R.id.r_12;
+        }
+        else if(strId.equals("f_12")){
+            id=R.id.f_12;
+        }
+        else if(strId.equals("a_12")){
+            id=R.id.a_12;
+        }
+        else if(strId.equals("u_12")){
+            id=R.id.u_12;
+        }
+        else if(strId.equals("m_67")){
+            id=R.id.m_67;
+        }
+        else if(strId.equals("t_67")){
+            id=R.id.t_67;
+        }
+        else if(strId.equals("w_67")){
+            id=R.id.w_67;
+        }
+        else if(strId.equals("r_67")){
+            id=R.id.r_67;
+        }
+        else if(strId.equals("f_67")){
+            id=R.id.f_67;
+        }
+        else if(strId.equals("a_67")){
+            id=R.id.a_67;
+        }
+        else if(strId.equals("u_67")){
+            id=R.id.u_67;
+        }
+        else if(strId.equals("m_78")){
+            id=R.id.m_78;
+        }
+        else if(strId.equals("t_78")){
+            id=R.id.t_78;
+        }
+        else if(strId.equals("w_78")){
+            id=R.id.w_78;
+        }
+        else if(strId.equals("r_78")){
+            id=R.id.r_78;
+        }
+        else if(strId.equals("f_78")){
+            id=R.id.f_78;
+        }
+        else if(strId.equals("a_78")){
+            id=R.id.a_78;
+        }
+        else if(strId.equals("u_78")){
+            id=R.id.u_78;
+        }
+        else if(strId.equals("m_89")){
+            id=R.id.m_89;
+        }
+        else if(strId.equals("t_89")){
+            id=R.id.t_89;
+        }
+        else if(strId.equals("w_89")){
+            id=R.id.w_89;
+        }
+        else if(strId.equals("r_89")){
+            id=R.id.r_89;
+        }
+        else if(strId.equals("f_89")){
+            id=R.id.f_89;
+        }
+        else if(strId.equals("a_89")){
+            id=R.id.a_89;
+        }
+        else if(strId.equals("u_89")){
+            id=R.id.u_89;
+        }
+        else if(strId.equals("m_910")){
+            id=R.id.m_910;
+        }
+        else if(strId.equals("t_910")){
+            id=R.id.t_910;
+        }
+        else if(strId.equals("w_910")){
+            id=R.id.w_910;
+        }
+        else if(strId.equals("r_910")){
+            id=R.id.r_910;
+        }
+        else if(strId.equals("f_910")){
+            id=R.id.f_910;
+        }
+        else if(strId.equals("a_910")){
+            id=R.id.a_910;
+        }
+        else if(strId.equals("u_910")){
+            id=R.id.u_910;
+        }
+        else if(strId.equals("m_1011")){
+            id=R.id.m_1011;
+        }
+        else if(strId.equals("t_1011")){
+            id=R.id.t_1011;
+        }
+        else if(strId.equals("w_1011")){
+            id=R.id.w_1011;
+        }
+        else if(strId.equals("r_1011")){
+            id=R.id.r_1011;
+        }
+        else if(strId.equals("f_1011")){
+            id=R.id.f_1011;
+        }
+        else if(strId.equals("a_1011")){
+            id=R.id.a_1011;
+        }
+        else if(strId.equals("u_1011")){
+            id=R.id.u_1011;
+        }
+        else{
+            id=0;
+        }
+
+        return id;
+
+    }
+
 }
