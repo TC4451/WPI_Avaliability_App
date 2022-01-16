@@ -8,11 +8,28 @@
     android:orientation="vertical"
     >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WPI availability app"
+        android:background="@color/red"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="15pt"
+        />
+
     <EditText
         android:id="@+id/input_Box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter the location"
+        android:hint="Enter the location" />
+
+    <Button
+        android:id="@+id/confirmInputButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="confirm location"
         />
 
     <RadioGroup
@@ -26,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Open"
-            android:onClick="onRadioButtonClicked"
             android:checked="true"
             />
         <RadioButton
@@ -35,7 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Closed"
-            android:onClick="onRadioButtonClicked"
             />
     </RadioGroup>
 
@@ -70,10 +85,13 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/confirmInputButton"
+        android:id="@+id/access_locations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="confirm"
+        android:text="Access All Locations"
         />
+
+
+
 
 </LinearLayout>

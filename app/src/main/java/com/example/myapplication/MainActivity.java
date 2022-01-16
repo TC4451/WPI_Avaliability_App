@@ -2,7 +2,9 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -11,19 +13,29 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.util.Locale;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    public Location cc = new Location("Campus Center");
-    public Location library = new Location ("Gordon Library");
-    public Location sport_rec = new Location("WPI Sports & Recreation Center");
+    public Location auditorium = new Location("Harrington Auditorium");
+    public Location foisie = new Location("Innovation Studio");
+    public Location careerCenter = new Location("WPI Career Development Center");
+    public Location healthCenter = new Location("WPI Student Health Center");
+    public Location daka = new Location("Morgan Dining Hall");
+    public Location goatsHead = new Location("Goat's Head");
+    public Location campusCenterFood = new Location ("Campus Center Food Court");
 
     RadioGroup radioGroup;
+
+    Boolean isOpen;
+    int isBusy;
+
     RadioGroup radioGroupBusy;
-    RadioButton radioButton;
+    RadioButton radioButtonOpen;
+    RadioButton radioButtonFree;
+    RadioButton radioButtonMedium;
     RadioButton radioButtonBusy;
-    String input;
+    String input = "";
 
     private EditText inputBox;
     @Override
@@ -31,12 +43,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        radioGroup = (RadioGroup) findViewById(R.id.radio_group_for_open);
-        radioGroupBusy = (RadioGroup) findViewById(R.id.radio_group_for_busy);
-
-        View here = new View(this);
-        onRadioButtonClicked(here);
-        onRadioButtonClickedBusy(here);
+        Location cc = new Location("Rubin Campus Center");
+        Location library = new Location ("George C. Gordon Library");
+        Location sport_rec = new Location("WPI Sports & Recreation Center");
 
         Button confirmLocationInputButton = (Button)findViewById(R.id.confirmInputButton);
         inputBox = (EditText) findViewById(R.id.input_Box);
@@ -45,44 +54,111 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 input = inputBox.getText().toString();
                 Toast.makeText(MainActivity.this, "Availability added!", Toast.LENGTH_LONG).show();
+                Intent timeTable = new Intent(MainActivity.this, SecondActivity.class);
+                if (input.equals(cc.getName().trim().toLowerCase())) {
+                    timeTable.putExtra("loc", (Parcelable) cc);
+                }
+                if (input.equals(library.getName().trim().toLowerCase())) {
+                    timeTable.putExtra("loc", (Parcelable) library);
+                }
+                if (input.equals(sport_rec.getName().trim().toLowerCase())) {
+                    timeTable.putExtra("loc", (Parcelable) sport_rec);
+                }
+                System.out.println("open 1: "+ isOpen);
+                timeTable.putExtra("Open", isOpen);
+                startActivity(timeTable);
+            }
+        });
+
+        //to update open time
+        radioGroup = (RadioGroup) findViewById(R.id.radio_group_for_open);
+        radioButtonOpen = (RadioButton) findViewById(R.id.radio_open);
+        radioButtonOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int day = Calendar.getInstance().DAY_OF_WEEK;
+                int time = Calendar.getInstance().HOUR;
+                if (input.equals(cc.getName().trim().toLowerCase())) {
+                    isOpen = true;
+                    cc.adjustOpenSlot(day, time, true);
+                }
+                if (input.equals(library.getName().trim().toLowerCase())) {
+                    isOpen = true;
+                    library.adjustOpenSlot(day, time, true);
+                }
+                if (input.equals(sport_rec.getName().trim().toLowerCase())) {
+                    isOpen = true;
+                    sport_rec.adjustOpenSlot(day, time, true);
+                }
+            }
+        });
+
+        //to update busyness of location
+        radioGroupBusy = (RadioGroup) findViewById(R.id.radio_group_for_busy);
+        radioButtonFree = (RadioButton) findViewById(R.id.radio_free);
+        radioButtonFree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (input.equals(cc.getName().trim().toLowerCase())){
+                    cc.adjustBusySlot(0);
+                }
+                if (input.equals(library.getName().trim().toLowerCase())){
+                    library.adjustBusySlot(0);
+                }
+                if (input.equals(sport_rec.getName().trim().toLowerCase())){
+                    sport_rec.adjustBusySlot(0);
+                }
+            }
+        });
+
+        radioButtonMedium = (RadioButton) findViewById(R.id.radio_medium);
+        radioButtonMedium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (input.equals(cc.getName().trim().toLowerCase())){
+                    cc.adjustBusySlot(1);
+                }
+                if (input.equals(library.getName().trim().toLowerCase())){
+                    library.adjustBusySlot(1);
+                }
+                if (input.equals(sport_rec.getName().trim().toLowerCase())){
+                    sport_rec.adjustBusySlot(1);
+                }
+            }
+        });
+
+        radioButtonBusy = (RadioButton) findViewById(R.id.radio_busy);
+        radioButtonBusy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (input.equals(cc.getName().trim().toLowerCase())){
+                    cc.adjustBusySlot(2);
+                }
+                if (input.equals(library.getName().trim().toLowerCase())){
+                    library.adjustBusySlot(2);
+                }
+                if (input.equals(sport_rec.getName().trim().toLowerCase())){
+                    sport_rec.adjustBusySlot(2);
+                }
+            }
+        });
+
+        if (radioButtonBusy.getText().equals("Not Too Busy")) {
+            isBusy = 0;
+        } else if (radioButtonBusy.getText().equals("Little Busy")) {
+            isBusy = 1;
+        } else {
+            isBusy = 2;
+        }
+
+        Button goToListButton = (Button) findViewById(R.id.access_locations);
+        goToListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ListOfActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    public void onRadioButtonClicked(View view) {
-        int radioId = radioGroup.getCheckedRadioButtonId();
-
-        radioButton = (RadioButton) findViewById(radioId);
-
-        //Toast.makeText(this, radioButton.getText(), Toast.LENGTH_SHORT).show();
-
-        if (radioButton.getText().equals("Open")){
-            Toast.makeText(this, "is open", Toast.LENGTH_SHORT);
-        } else {
-            Toast.makeText(this, "is closed", Toast.LENGTH_SHORT);
-        }
-    }
-
-    public void onRadioButtonClickedBusy(View view) {
-
-        int radioIdBusy = radioGroupBusy.getCheckedRadioButtonId();
-
-        radioButtonBusy = (RadioButton) findViewById(radioIdBusy);
-
-        /*
-        if (radioButtonBusy.getText().equals("Not Too Busy")) {
-            if (input.equals(cc.getName().toLowerCase(Locale.ROOT).trim())) {
-                cc.adjustBusySlot(1);
-            }
-        } else if (radioButtonBusy.getText().equals("Little Busy")) {
-            if (input.equals(cc.getName().toLowerCase(Locale.ROOT).trim())) {
-                cc.adjustBusySlot(2);
-            }
-        } else {
-            if (input.equals(cc.getName().toLowerCase(Locale.ROOT).trim())) {
-                cc.adjustBusySlot(3);
-            }
-        }
-        */
-    }
 }
