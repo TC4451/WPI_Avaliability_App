@@ -12,20 +12,17 @@ public class Location {
         _name = name;
     }
 
-    public void adjustOpenSlot(){
-        Calendar now = Calendar.getInstance();  // current time
-        int day = now.get(Calendar.DAY_OF_WEEK);
-        int hour = now.get(Calendar.HOUR_OF_DAY);     // gets the current hour
+    public void adjustOpenSlot(int day, int hour, boolean isOpen){
 
         if (2 < hour && hour < 6){
-            return;
+            isOpen = false;
         }else{
             if (hour >= 2) {
                 int slot = 20 * (day - 1) + hour - 4;
-                listForOpen[slot] = true;
+                listForOpen[slot] = isOpen;
             } else{
                 int slot = 20 * (day - 1) + hour;
-                listForOpen[slot] = true;
+                listForOpen[slot] = isOpen;
             }
         }
     }
@@ -51,4 +48,5 @@ public class Location {
     public String getName(){
         return _name;
     }
+
 }
