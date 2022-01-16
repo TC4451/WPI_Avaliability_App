@@ -20,8 +20,13 @@ public class Location {
         if (2 < hour && hour < 6){
             return;
         }else{
-            int slot = 20 * (day-1) + hour - 4;
-            listForOpen[slot] = true;
+            if (hour >= 2) {
+                int slot = 20 * (day - 1) + hour - 4;
+                listForOpen[slot] = true;
+            } else{
+                int slot = 20 * (day - 1) + hour;
+                listForOpen[slot] = true;
+            }
         }
     }
 
@@ -33,9 +38,12 @@ public class Location {
         if (2 < hour && hour < 6){
             return;
         }else{
-            if (n == 1 || n == 2 || n == 3){
-                int slot = 20 * (day-1) + hour - 4;
-                listForBusy[slot] = n;
+            if (hour >= 2) {
+                int pos = 20 * (day - 1) + hour - 4;
+                listForBusy[pos] = n;
+            } else {
+                int pos = 20 * (day - 1) + hour;
+                listForBusy[pos] = n;
             }
         }
     }

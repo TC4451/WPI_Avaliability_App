@@ -12,12 +12,10 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        TextView tx = (TextView) findViewById(R.id.here);
-
-        boolean test = true;
-
-        if (test){
-
+        /*
+        for (int i = 0; i < 140; i++){
+            TextView box = (TextView) findViewById(R.id.i);
         }
+        */
     }
 }
